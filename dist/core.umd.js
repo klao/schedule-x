@@ -3445,7 +3445,7 @@
   function TimeGridEvent({ calendarEvent, dayBoundariesDateTime, isCopy, setMouseDown, }) {
       var _a, _b;
       const $app = hooks.useContext(AppContext);
-      const { eventCopy, updateCopy, createDragStartTimeout, setClickedEventIfNotDragging, } = useEventInteractions($app);
+      const { eventCopy, updateCopy, createDragStartTimeout, setClickedEventIfNotDragging, setClickedEvent, } = useEventInteractions($app);
       const localizeArgs = [
           $app.config.locale,
           { hour: 'numeric', minute: 'numeric' },
@@ -3496,6 +3496,13 @@
           e.stopPropagation();
           invokeOnEventClickCallback($app, calendarEvent);
       };
+      const handleKeyDown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+              e.stopPropagation();
+              setClickedEvent(e, calendarEvent);
+              invokeOnEventClickCallback($app, calendarEvent);
+          }
+      };
       const startResize = (e) => {
           setMouseDown(true);
           e.stopPropagation();
@@ -3521,7 +3528,7 @@
           nextTick(() => setMouseDown(false));
           setClickedEventIfNotDragging(calendarEvent, e);
       };
-      return (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("div", { id: isCopy ? getTimeGridEventCopyElementId(calendarEvent.id) : undefined, "data-event-id": calendarEvent.id, onClick: handleOnClick, onMouseDown: handlePointerDown, onMouseUp: handlePointerUp, onTouchStart: handlePointerDown, onTouchEnd: handlePointerUp, className: classNames.join(' '), tabIndex: 0, style: {
+      return (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("div", { id: isCopy ? getTimeGridEventCopyElementId(calendarEvent.id) : undefined, "data-event-id": calendarEvent.id, onClick: handleOnClick, onKeyDown: handleKeyDown, onMouseDown: handlePointerDown, onMouseUp: handlePointerUp, onTouchStart: handlePointerDown, onTouchEnd: handlePointerUp, className: classNames.join(' '), tabIndex: 0, style: {
                       top: `${getYCoordinateInTimeGrid(calendarEvent.start, $app.config.dayBoundaries, $app.config.timePointsPerDay)}%`,
                       height: `${getEventHeight(calendarEvent.start, calendarEvent.end, $app.config.dayBoundaries, $app.config.timePointsPerDay)}%`,
                       left: `${leftRule}%`,
