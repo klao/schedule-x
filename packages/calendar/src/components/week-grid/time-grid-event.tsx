@@ -24,6 +24,7 @@ import { getEventCoordinates } from '@schedule-x/shared/src/utils/stateless/dom/
 import { isUIEventTouchEvent } from '@schedule-x/shared/src/utils/stateless/dom/is-touch-event'
 import { getYCoordinateInTimeGrid } from '@schedule-x/shared/src/utils/stateless/calendar/get-y-coordinate-in-time-grid'
 import { nextTick } from '@schedule-x/shared/src/utils/stateless/next-tick'
+import LocationPinIcon from '@schedule-x/shared/src/components/icons/location-pin-icon'
 
 type props = {
   calendarEvent: CalendarEventInternal
@@ -205,6 +206,14 @@ export default function TimeGridEvent({
                 <div className="sx__time-grid-event-people">
                   <UserIcon strokeColor={eventCSSVariables.iconStroke} />
                   {concatenatePeople(calendarEvent.people)}
+                </div>
+              )}
+
+              {calendarEvent.location && (
+                // TODO: Add location class
+                <div className="sx__time-grid-event-people">
+                  <LocationPinIcon strokeColor={eventCSSVariables.iconStroke} />
+                  {calendarEvent.location}
                 </div>
               )}
             </Fragment>
