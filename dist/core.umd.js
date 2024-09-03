@@ -314,16 +314,6 @@
       return (jsxRuntime.jsx(jsxRuntime.Fragment, { children: jsxRuntime.jsxs("svg", { className: "sx__event-icon", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [jsxRuntime.jsx("g", { id: "SVGRepo_bgCarrier", "stroke-width": "0" }), jsxRuntime.jsx("g", { id: "SVGRepo_tracerCarrier", "stroke-linecap": "round", "stroke-linejoin": "round" }), jsxRuntime.jsxs("g", { id: "SVGRepo_iconCarrier", children: [jsxRuntime.jsx("path", { d: "M15 7C15 8.65685 13.6569 10 12 10C10.3431 10 9 8.65685 9 7C9 5.34315 10.3431 4 12 4C13.6569 4 15 5.34315 15 7Z", stroke: strokeColor, "stroke-width": "2" }), jsxRuntime.jsx("path", { d: "M5 19.5C5 15.9101 7.91015 13 11.5 13H12.5C16.0899 13 19 15.9101 19 19.5V20C19 20.5523 18.5523 21 18 21H6C5.44772 21 5 20.5523 5 20V19.5Z", stroke: strokeColor, "stroke-width": "2" })] })] }) }));
   }
 
-  /**
-   * Origin of SVG: https://www.svgrepo.com/svg/489502/location-pin
-   * License: PD License
-   * Author: Dariush Habibpour
-   * Author website: https://redl.ink/dariush/links?ref=svgrepo.com
-   * */
-  function LocationPinIcon({ strokeColor }) {
-      return (jsxRuntime.jsx(jsxRuntime.Fragment, { children: jsxRuntime.jsxs("svg", { className: "sx__event-icon", viewBox: "0 0 24 24", fill: "none", xmlns: "http://www.w3.org/2000/svg", children: [jsxRuntime.jsx("g", { id: "SVGRepo_bgCarrier", "stroke-width": "0" }), jsxRuntime.jsx("g", { id: "SVGRepo_tracerCarrier", "stroke-linecap": "round", "stroke-linejoin": "round" }), jsxRuntime.jsxs("g", { id: "SVGRepo_iconCarrier", children: [jsxRuntime.jsxs("g", { "clip-path": "url(#clip0_429_11046)", children: [jsxRuntime.jsx("rect", { x: "12", y: "11", width: "0.01", height: "0.01", stroke: strokeColor, "stroke-width": "2", "stroke-linejoin": "round" }), jsxRuntime.jsx("path", { d: "M12 22L17.5 16.5C20.5376 13.4624 20.5376 8.53757 17.5 5.5C14.4624 2.46244 9.53757 2.46244 6.5 5.5C3.46244 8.53757 3.46244 13.4624 6.5 16.5L12 22Z", stroke: strokeColor, "stroke-width": "2", "stroke-linejoin": "round" })] }), jsxRuntime.jsx("defs", { children: jsxRuntime.jsx("clipPath", { id: "clip0_429_11046", children: jsxRuntime.jsx("rect", { width: "24", height: "24", fill: "white" }) }) })] })] }) }));
-  }
-
   // regex for strings between 00:00 and 23:59
   const timeStringRegex = /^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
   const dateTimeStringRegex = /^(\d{4})-(\d{2})-(\d{2}) (0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$/;
@@ -3528,7 +3518,7 @@
           nextTick(() => setMouseDown(false));
           setClickedEventIfNotDragging(calendarEvent, e);
       };
-      return (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("div", { id: isCopy ? getTimeGridEventCopyElementId(calendarEvent.id) : undefined, "data-event-id": calendarEvent.id, onClick: handleOnClick, onKeyDown: handleKeyDown, onMouseDown: handlePointerDown, onMouseUp: handlePointerUp, onTouchStart: handlePointerDown, onTouchEnd: handlePointerUp, className: classNames.join(' '), tabIndex: 0, style: {
+      return (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsx("div", { id: isCopy ? getTimeGridEventCopyElementId(calendarEvent.id) : undefined, "data-event-id": calendarEvent.id, onClick: handleOnClick, onKeyDown: handleKeyDown, onMouseDown: handlePointerDown, onMouseUp: handlePointerUp, onTouchStart: handlePointerDown, onTouchEnd: handlePointerUp, className: classNames.join(' '), tabIndex: 0, role: "button", style: {
                       top: `${getYCoordinateInTimeGrid(calendarEvent.start, $app.config.dayBoundaries, $app.config.timePointsPerDay)}%`,
                       height: `${getEventHeight(calendarEvent.start, calendarEvent.end, $app.config.dayBoundaries, $app.config.timePointsPerDay)}%`,
                       left: `${leftRule}%`,
@@ -3544,9 +3534,7 @@
                           ? undefined
                           : eventCSSVariables.borderLeft,
                       padding: customComponent ? '0' : undefined,
-                  }, children: jsxRuntime.jsxs("div", { "data-ccid": customComponentId, className: "sx__time-grid-event-inner", children: [!customComponent && (jsxRuntime.jsxs(preact.Fragment, { children: [calendarEvent.title && (jsxRuntime.jsx("div", { className: "sx__time-grid-event-title", children: calendarEvent.title })), jsxRuntime.jsxs("div", { className: "sx__time-grid-event-time", children: [jsxRuntime.jsx(TimeIcon, { strokeColor: eventCSSVariables.iconStroke }), getEventTime(calendarEvent.start, calendarEvent.end)] }), calendarEvent.people && calendarEvent.people.length > 0 && (jsxRuntime.jsxs("div", { className: "sx__time-grid-event-people", children: [jsxRuntime.jsx(UserIcon, { strokeColor: eventCSSVariables.iconStroke }), concatenatePeople(calendarEvent.people)] })), calendarEvent.location && (
-                                  // TODO: Add location class
-                                  jsxRuntime.jsxs("div", { className: "sx__time-grid-event-people", children: [jsxRuntime.jsx(LocationPinIcon, { strokeColor: eventCSSVariables.iconStroke }), calendarEvent.location] }))] })), $app.config.plugins.resize &&
+                  }, children: jsxRuntime.jsxs("div", { "data-ccid": customComponentId, className: "sx__time-grid-event-inner", children: [!customComponent && (jsxRuntime.jsxs(preact.Fragment, { children: [calendarEvent.title && (jsxRuntime.jsx("div", { className: "sx__time-grid-event-title", children: calendarEvent.title })), jsxRuntime.jsxs("div", { className: "sx__time-grid-event-time", children: [jsxRuntime.jsx(TimeIcon, { strokeColor: eventCSSVariables.iconStroke }), getEventTime(calendarEvent.start, calendarEvent.end)] }), calendarEvent.people && calendarEvent.people.length > 0 && (jsxRuntime.jsxs("div", { className: "sx__time-grid-event-people", children: [jsxRuntime.jsx(UserIcon, { strokeColor: eventCSSVariables.iconStroke }), concatenatePeople(calendarEvent.people)] }))] })), $app.config.plugins.resize &&
                               !((_b = calendarEvent._options) === null || _b === void 0 ? void 0 : _b.disableResize) && (jsxRuntime.jsx("div", { className: 'sx__time-grid-event-resize-handle', onMouseDown: startResize }))] }) }), eventCopy && (jsxRuntime.jsx(TimeGridEvent, { calendarEvent: eventCopy, isCopy: true, setMouseDown: setMouseDown }))] }));
   }
 
@@ -3894,7 +3882,7 @@
   function DateGridEvent({ calendarEvent, gridRow, isCopy, }) {
       var _a, _b;
       const $app = hooks.useContext(AppContext);
-      const { eventCopy, updateCopy, setClickedEventIfNotDragging, createDragStartTimeout, } = useEventInteractions($app);
+      const { eventCopy, updateCopy, createDragStartTimeout, setClickedEventIfNotDragging, setClickedEvent, } = useEventInteractions($app);
       const eventCSSVariables = {
           borderLeft: `4px solid var(--sx-color-${calendarEvent._color})`,
           color: `var(--sx-color-on-${calendarEvent._color}-container)`,
@@ -3941,6 +3929,14 @@
           updateCopy(eventCopy);
           $app.config.plugins.resize.createDateGridEventResizer(eventCopy, updateCopy, mouseEvent);
       };
+      const handleKeyDown = (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+              console.log('keydown');
+              e.stopPropagation();
+              setClickedEvent(e, calendarEvent);
+              invokeOnEventClickCallback($app, calendarEvent);
+          }
+      };
       const eventClasses = [
           'sx__event',
           'sx__date-grid-event',
@@ -3959,7 +3955,7 @@
           : eventCSSVariables.borderLeft;
       return (jsxRuntime.jsxs(jsxRuntime.Fragment, { children: [jsxRuntime.jsxs("div", { id: isCopy ? getTimeGridEventCopyElementId(calendarEvent.id) : undefined, tabIndex: 0, "aria-label": calendarEvent.title +
                       ' ' +
-                      getTimeStamp(calendarEvent, $app.config.locale, $app.translate('to')), "data-ccid": customComponentId, "data-event-id": calendarEvent.id, onMouseDown: (e) => createDragStartTimeout(handleStartDrag, e), onMouseUp: (e) => setClickedEventIfNotDragging(calendarEvent, e), onTouchStart: (e) => createDragStartTimeout(handleStartDrag, e), onTouchEnd: (e) => setClickedEventIfNotDragging(calendarEvent, e), onClick: () => invokeOnEventClickCallback($app, calendarEvent), className: eventClasses.join(' '), style: {
+                      getTimeStamp(calendarEvent, $app.config.locale, $app.translate('to')), role: "button", "data-ccid": customComponentId, "data-event-id": calendarEvent.id, onMouseDown: (e) => createDragStartTimeout(handleStartDrag, e), onMouseUp: (e) => setClickedEventIfNotDragging(calendarEvent, e), onTouchStart: (e) => createDragStartTimeout(handleStartDrag, e), onTouchEnd: (e) => setClickedEventIfNotDragging(calendarEvent, e), onClick: () => invokeOnEventClickCallback($app, calendarEvent), onKeyDown: handleKeyDown, className: eventClasses.join(' '), style: {
                       width: `calc(${calendarEvent._nDaysInGrid * 100}% - ${getWidthToSubtract(hasOverflowLeft, hasOverflowRight, !customComponent)}px)`,
                       gridRow,
                       display: eventCopy ? 'none' : 'flex',
