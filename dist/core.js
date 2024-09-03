@@ -3931,7 +3931,6 @@ function DateGridEvent({ calendarEvent, gridRow, isCopy, }) {
     };
     const handleKeyDown = (e) => {
         if (e.key === 'Enter' || e.key === ' ') {
-            console.log('keydown');
             e.stopPropagation();
             setClickedEvent(e, calendarEvent);
             invokeOnEventClickCallback($app, calendarEvent);
@@ -4080,7 +4079,7 @@ function MonthGridEvent({ gridRow, calendarEvent, date, isFirstWeek, isLastWeek,
         ((_b = $app.calendarState.range.value) === null || _b === void 0 ? void 0 : _b.end) &&
         dateFromDateTime(calendarEvent.end) >
             dateFromDateTime($app.calendarState.range.value.end);
-    const { createDragStartTimeout, setClickedEventIfNotDragging } = useEventInteractions($app);
+    const { createDragStartTimeout, setClickedEventIfNotDragging, setClickedEvent } = useEventInteractions($app);
     const hasStartDate = dateFromDateTime(calendarEvent.start) === date;
     const nDays = calendarEvent._eventFragments[date];
     const eventCSSVariables = {
@@ -4119,6 +4118,13 @@ function MonthGridEvent({ gridRow, calendarEvent, date, isFirstWeek, isLastWeek,
         e.stopPropagation(); // prevent the click from bubbling up to the day element
         invokeOnEventClickCallback($app, calendarEvent);
     };
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.stopPropagation();
+            setClickedEvent(e, calendarEvent);
+            invokeOnEventClickCallback($app, calendarEvent);
+        }
+    };
     const classNames = [
         'sx__event',
         'sx__month-grid-event',
@@ -4131,7 +4137,7 @@ function MonthGridEvent({ gridRow, calendarEvent, date, isFirstWeek, isLastWeek,
         classNames.push('sx__month-grid-event--overflow-left');
     if (hasOverflowRight)
         classNames.push('sx__month-grid-event--overflow-right');
-    return (jsx("div", { draggable: !!$app.config.plugins.dragAndDrop, "data-event-id": calendarEvent.id, "data-ccid": customComponentId, onMouseDown: (e) => createDragStartTimeout(handleStartDrag, e), onMouseUp: (e) => setClickedEventIfNotDragging(calendarEvent, e), onTouchStart: (e) => createDragStartTimeout(handleStartDrag, e), onTouchEnd: (e) => setClickedEventIfNotDragging(calendarEvent, e), onClick: handleOnClick, className: classNames.join(' '), style: {
+    return (jsx("div", { draggable: !!$app.config.plugins.dragAndDrop, "data-event-id": calendarEvent.id, "data-ccid": customComponentId, onMouseDown: (e) => createDragStartTimeout(handleStartDrag, e), onMouseUp: (e) => setClickedEventIfNotDragging(calendarEvent, e), onTouchStart: (e) => createDragStartTimeout(handleStartDrag, e), onTouchEnd: (e) => setClickedEventIfNotDragging(calendarEvent, e), onClick: handleOnClick, onKeyDown: handleKeyDown, className: classNames.join(' '), style: {
             gridRow,
             width: eventCSSVariables.width,
             padding: customComponent ? '0px' : undefined,
@@ -4140,7 +4146,7 @@ function MonthGridEvent({ gridRow, calendarEvent, date, isFirstWeek, isLastWeek,
             backgroundColor: customComponent
                 ? undefined
                 : eventCSSVariables.backgroundColor,
-        }, tabIndex: 0, children: !customComponent && (jsx("div", { className: "sx__month-grid-event-title", children: calendarEvent.title })) }));
+        }, tabIndex: 0, role: "button", children: !customComponent && (jsx("div", { className: "sx__month-grid-event-title", children: calendarEvent.title })) }));
 }
 
 function MonthGridDay({ day, isFirstWeek, isLastWeek }) {
@@ -4449,6 +4455,13 @@ function MonthAgendaEvent({ calendarEvent }) {
         invokeOnEventClickCallback($app, calendarEvent);
         setClickedEvent(e, calendarEvent);
     };
+    const onKeyDown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.stopPropagation();
+            invokeOnEventClickCallback($app, calendarEvent);
+            setClickedEvent(e, calendarEvent);
+        }
+    };
     return (jsx("div", { className: "sx__event sx__month-agenda-event", "data-ccid": customComponentId, "data-event-id": calendarEvent.id, style: {
             backgroundColor: customComponent
                 ? undefined
@@ -4456,7 +4469,7 @@ function MonthAgendaEvent({ calendarEvent }) {
             color: customComponent ? undefined : eventCSSVariables.color,
             borderLeft: customComponent ? undefined : eventCSSVariables.borderLeft,
             padding: customComponent ? '0px' : undefined,
-        }, onClick: (e) => onClick(e), tabIndex: 0, children: !customComponent && (jsxs(Fragment$1, { children: [jsx("div", { className: "sx__month-agenda-event__title", children: calendarEvent.title }), jsxs("div", { className: "sx__month-agenda-event__time sx__month-agenda-event__has-icon", children: [jsx(TimeIcon, { strokeColor: `var(--sx-color-on-${calendarEvent._color}-container)` }), getTimeStamp(calendarEvent, $app.config.locale)] })] })) }));
+        }, onClick: (e) => onClick(e), onKeyDown: onKeyDown, tabIndex: 0, role: "button", children: !customComponent && (jsxs(Fragment$1, { children: [jsx("div", { className: "sx__month-agenda-event__title", children: calendarEvent.title }), jsxs("div", { className: "sx__month-agenda-event__time sx__month-agenda-event__has-icon", children: [jsx(TimeIcon, { strokeColor: `var(--sx-color-on-${calendarEvent._color}-container)` }), getTimeStamp(calendarEvent, $app.config.locale)] })] })) }));
 }
 
 function MonthAgendaEvents({ events }) {
