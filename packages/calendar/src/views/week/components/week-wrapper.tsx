@@ -43,6 +43,49 @@ export const WeekWrapper: PreactViewComponent = ({ $app, id }) => {
     setWeek(newWeek)
   })
 
+  const navigate = (direction: 'forwards' | 'backwards') => {
+    const currentView = $app.config.views.find(
+      (view) => view.name === $app.calendarState.view.value
+    )
+    if (!currentView) return
+
+    $app.datePickerState.selectedDate.value = currentView.backwardForwardFn(
+      $app.datePickerState.selectedDate.value,
+      direction === 'forwards'
+        ? currentView.backwardForwardUnits
+        : -currentView.backwardForwardUnits
+    )
+  }
+
+  const [touchStartX, setTouchStartX] = useState(0)
+  const [translateX, setTranslateX] = useState(0)
+
+  const touchStartHandler = (event: TouchEvent) => {
+    setTouchStartX(event.touches[0].clientX)
+  }
+
+  const touchMoveHandler = (event: TouchEvent) => {
+    let diff = event.touches[0].clientX - touchStartX
+    if (diff > 200) diff = 200
+    if (diff < -200) diff = -200
+    setTranslateX(diff)
+  }
+
+  const touchEndHandler = (event: TouchEvent) => {
+    setTranslateX(0)
+    const touchEndX = event.changedTouches[0].clientX
+    const diff = touchEndX - touchStartX
+    if (diff > 150) {
+      navigate('backwards')
+    } else if (diff < -150) {
+      navigate('forwards')
+    }
+  }
+
+  const touchCancelHandler = () => {
+    setTranslateX(0)
+  }
+
   return (
     <>
       <AppContext.Provider value={$app}>
@@ -70,7 +113,16 @@ export const WeekWrapper: PreactViewComponent = ({ $app, id }) => {
             </div>
           </div>
 
-          <div className="sx__week-grid">
+          <div
+            className="sx__week-grid"
+            onTouchStart={touchStartHandler}
+            onTouchMove={touchMoveHandler}
+            onTouchEnd={touchEndHandler}
+            onTouchCancel={touchCancelHandler}
+            style={{
+              transform: `translateX(${translateX}px)`,
+            }}
+          >
             <TimeAxis />
 
             {Object.values(week).map((day) => (
